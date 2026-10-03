@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "component": "FORMAL90_BENCHMARK",
+  "benchmark_version": "1.0",
+  "status": "FROZEN",
+  "spark_version": "3.5.9",
+  "task_count": 90,
+  "category_counts": {
+    "A_resource": 15,
+    "B_driver_executor": 15,
+    "C_yarn_deploy": 15,
+    "D_source_precedence": 15,
+    "E_dependency_interaction": 15,
+    "F_integrated": 15
+  },
+  "provenance_type_counts": {
+    "DIRECT_REAL_CASE_ADAPTATION": 84,
+    "COMPOSITION_OF_REAL_CASE_RULES": 6
+  },
+  "source_ids_used_count": 40,
+  "rule_ids": [
+    "R01_EXECUTOR_MEMORY",
+    "R02_SPARK_DEFAULTS_SOURCE",
+    "R03_CLI_OVER_DEFAULTS",
+    "R04_YARN_QUEUE",
+    "R05_WAIT_COMPLETION",
+    "R06_DYNAMIC_SHUFFLE_TRACKING",
+    "R07_CLIENT_DRIVER_MEMORY_PLACEMENT",
+    "R08_EXECUTOR_MEMORY_OVERHEAD",
+    "R09_PROPERTIES_FILE",
+    "R10_DYNAMIC_SCALE_RUNTIME",
+    "R11_DYNAMIC_INITIAL_PRECEDENCE",
+    "R12_EXECUTOR_CORES",
+    "R13_EXECUTOR_INSTANCES",
+    "R14_YARN_DEPLOY_MODE"
+  ],
+  "catalog_path": "fixtures/formal_tasks_90_frozen_v01.json",
+  "catalog_sha256": "b82814319214c59f3d17edb54de712e8bd48304085ca619065df01c1d7c013a8",
+  "source_pool_path": "fixtures/formal_real_case_source_pool_v1_frozen.json",
+  "source_pool_sha256": "e277c9d90805a73f194b2fd7ad9efb5187270c96ca642601eeffb4f57c848c8d",
+  "oracle_batch_id": "20260930T092548Z_e70cfd95",
+  "oracle_summary_path": "runs/formal90_oracle_v01/20260930T092548Z_e70cfd95/formal90_oracle_summary.json",
+  "oracle_summary_sha256": "5c915a630afeb545f36b9cd2c9f65e1c0b9e136206576fc92b336a81a7bd6816",
+  "oracle_result": "90/90 PASS; infrastructure_error=0",
+  "component_hashes": {
+    "09_deterministic_parser.py": "82534e2f7a3d2ba8347a71ccbbf1c3df7ec973000093a726aa61f899714e2685",
+    "13_safe_command_builder.py": "1b9ed472ecf03a565d5a37f44dfb895cf183ceb52a49afbc0b2cf8a6ac26f6b3",
+    "23_static_validator_v02.py": "db62661ac2a511b903e84910c57894d5cc3a6dcca47649768e53cf653f1d0727",
+    "24_run_pilot30_oracle_validation.py": "1993c966b3d5c24349b152aa7bc721ee1b0815676b1509d0fd9f08ba16082284",
+    "37_run_qwen_c1_v04.py": "53f9c1a868d826c452cca34eb4645483aac2dc23de7a6f5173d05a6c15de5047",
+    "48_repair_feedback_sanitizer_v01.py": "0e4d300950d609981ef9871c2b33fca0210f1274184f9fcffb5f85c9bce3da1f",
+    "55_run_formal90_oracle_validation_v01.py": "93495927562a286ceac33e2cb285284b2a4e5af335ee2542649cdb7d4bea469a",
+    "fixtures/validator_profile_v02.json": "0783f4a9c5f5abcd8693a31fb01fccecff5d5170db44143bf039b88b1f2f3afc",
+    "fixtures/qwen_pilot_protocol_v01.json": "6f8f03d8c41d070671b88f19d7413849fc1210457943366802b7f9c7ace9d0a0",
+    "fixtures/c1_official_context_v04.json": "e694b6727784a48e1446d642f35cd23eb5569410b0d096c821437a2419e02aca",
+    "fixtures/formal_repair_feedback_v1_freeze.json": "2b3421203fff90deeea00b34683f2da2ed7174a6b3bd596b40f435c02084902e"
+  },
+  "config_probe_jar_sha256": "4acfc72ea5a50ee51ee739dd7742ca12dcdefa4ea142d0772ee493571d78edd6",
+  "formal_repair_feedback_protocol": "V1 FROZEN",
+  "c1_context_sha256": "e694b6727784a48e1446d642f35cd23eb5569410b0d096c821437a2419e02aca",
+  "byte_identity_note": "Frozen catalog bytes are identical to the oracle-validated Draft V0.1 bytes; no task text/constraint/status field was edited after oracle execution.",
+  "frozen_at_utc": "2026-09-30T10:12:42.879146+00:00"
+}

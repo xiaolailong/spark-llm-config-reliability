@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated paper and the archived Zenodo record."
+title: "Spark Configuration Reliability Reproducibility Code and Analysis"
+type: software
+authors:
+  - family-names: "Chen"
+    given-names: "Lianglong"
+    orcid: "https://orcid.org/0009-0002-5862-525X"
+    affiliation: "Xiamen University Tan Kah Kee College"
+version: "1.0.0"
+date-released: "2026-10-03"
+repository-code: "https://github.com/xiaolailong/spark-llm-config-reliability"
+doi: "10.5281/zenodo.23121320"

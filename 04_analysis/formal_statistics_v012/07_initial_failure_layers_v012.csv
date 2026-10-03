@@ -1,0 +1,8 @@
+"model","condition","failure_layer","cases"
+"Qwen","C0","PARSE",1
+"DeepSeek","C0","STATIC",25
+"GPT","C0","STATIC",20
+"Qwen","C0","STATIC",66
+"DeepSeek","C1","STATIC",11
+"GPT","C1","STATIC",22
+"Qwen","C1","STATIC",29

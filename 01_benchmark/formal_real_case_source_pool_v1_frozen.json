@@ -1,0 +1,894 @@
+{
+  "schema_version": "1",
+  "catalog_version": "1.0-draft",
+  "spark_version": "3.5.9",
+  "created_for": "Formal 90 held-out benchmark design",
+  "selection_principle": "Prefer traceable real Spark/YARN incidents and questions. Community/JIRA cases establish ecological relevance only; correctness comes from frozen Spark 3.5.9 constraints and execution.",
+  "counts": {
+    "total_sources": 48,
+    "ready_or_provenance_ready": 45,
+    "out_of_scope": 3
+  },
+  "sources": [
+    {
+      "source_case_id": "RC001",
+      "title": "Conflicting spark-defaults.conf and spark-submit values: which wins?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/32600296/which-configuration-options-are-preferred-in-spark",
+      "real_problem": "A user asks whether a value in spark-defaults.conf or a different value passed to spark-submit has priority.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "Spark 3.5.9 documents SparkConf > spark-submit flags > spark-defaults.conf precedence.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R03_CLI_OVER_DEFAULTS"
+      ],
+      "potential_task_forms": [
+        "conflicting executor-memory values across defaults and CLI",
+        "conflicting executor-cores values across defaults and CLI"
+      ],
+      "notes": "Strong provenance case; exact answer must be re-derived from Spark 3.5.9 docs, not copied from the old answer."
+    },
+    {
+      "source_case_id": "RC002",
+      "title": "What is the priority among SparkConf, spark-submit, spark-env.sh and spark-defaults.conf?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/41975415/please-tell-me-the-priority-of-the-properties-mentioned-in-these-four-locations",
+      "real_problem": "A user is confused about configuration precedence and the role of spark-env.sh versus Spark properties.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "Spark 3.5.9 distinguishes Spark properties from environment variables and documents property precedence.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R02_SPARK_DEFAULTS_SOURCE",
+        "R03_CLI_OVER_DEFAULTS"
+      ],
+      "potential_task_forms": [
+        "choose the correct source for a Spark property",
+        "distinguish Spark property from per-machine environment configuration"
+      ],
+      "notes": "May be useful for source-selection tasks, but avoid broad spark-env.sh questions that are not automatically assertable. Re-screened after frozen precedence/source validation; suitable as provenance only."
+    },
+    {
+      "source_case_id": "RC003",
+      "title": "Load Spark settings from multiple configuration files",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/43358834/spark-load-settings-from-multiple-configuration-files",
+      "real_problem": "A user wants Spark to load spark-defaults.conf plus another properties file with last-file-wins behavior.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "Spark 3.5.9 supports spark-defaults.conf and --properties-file behavior through spark-submit, but arbitrary multi-file merge semantics are not a general built-in precedence layer.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R09_PROPERTIES_FILE"
+      ],
+      "potential_task_forms": [
+        "select one properties file with --properties-file",
+        "reason about whether two property files are automatically merged"
+      ],
+      "notes": "Do not admit until properties-file fixture/runner behavior is validated. R09_PROPERTIES_FILE PASS on Spark 3.5.9; later --load-spark-defaults case dropped."
+    },
+    {
+      "source_case_id": "RC004",
+      "title": "spark-submit with --properties-file still reports missing application resource",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/51451534/spark-submit-with-properties-file",
+      "real_problem": "A user puts Spark properties in a file but omits the actual application resource and gets Missing application resource.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "spark-submit syntax still requires an application resource; the benchmark runner intentionally supplies fixed ConfigProbe itself.",
+      "screening_status": "OUT_OF_SCOPE_FORMAL",
+      "candidate_rule_ids": [],
+      "potential_task_forms": [],
+      "notes": "Valuable real case, but Formal Benchmark should not let the model supply the application jar/class. Keep as design rationale for fixed ConfigProbe."
+    },
+    {
+      "source_case_id": "RC005",
+      "title": "How to set spark.driver.memory in client mode",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/53606756/how-to-set-spark-driver-memory-in-client-mode-pyspark-version-2-3-1",
+      "real_problem": "A user asks why setting driver memory after Spark has already initialized is ineffective and where it should be set.",
+      "category": "B_driver_executor_placement",
+      "spark_3_5_9_basis": "Spark 3.5.9 explicitly says client-mode driver memory must not be set through SparkConf after the driver JVM has started; use --driver-memory or default properties.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R07_CLIENT_DRIVER_MEMORY_PLACEMENT"
+      ],
+      "potential_task_forms": [
+        "client mode driver memory via --driver-memory",
+        "reject application SparkConf as the sole source for client-mode driver memory"
+      ],
+      "notes": "High-value placement task. Needs a client-mode fixture/probe before whitelist admission. R07A/R07B runtime validation PASS."
+    },
+    {
+      "source_case_id": "RC006",
+      "title": "Driver configured with 10g but actually runs with 1g in client mode",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/57492945/outofmemoryerror-on-sparks-driver-heap-dump-1gb-while-10gb-is-configured",
+      "real_problem": "A real OOM case traced to setting spark.driver.memory in Spark configuration while running in client mode.",
+      "category": "B_driver_executor_placement",
+      "spark_3_5_9_basis": "Same Spark 3.5.9 client-mode driver-memory placement rule as RC005.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R07_CLIENT_DRIVER_MEMORY_PLACEMENT"
+      ],
+      "potential_task_forms": [
+        "repair an ineffective client-mode driver-memory placement"
+      ],
+      "notes": "Excellent real incident for repair-style wording later; first validate placement behavior in the harness. R07A/R07B runtime validation PASS."
+    },
+    {
+      "source_case_id": "RC007",
+      "title": "Trying to switch to YARN cluster deploy mode from SparkSession code",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/68801666/how-to-use-pyspark-on-yarn-cluster-mode-by-code",
+      "real_problem": "A user tries to set master/deploy mode inside application code and receives an error indicating cluster deploy mode is not applicable to the shell.",
+      "category": "C_yarn_deploy_mode",
+      "spark_3_5_9_basis": "Spark submission docs define --master yarn and --deploy-mode cluster as submission-time deployment choices.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "generate YARN cluster-mode submission settings",
+        "distinguish master from deploy mode"
+      ],
+      "notes": "Use only the deployment semantics, not PySpark-shell-specific details."
+    },
+    {
+      "source_case_id": "RC008",
+      "title": "Submitting to remote YARN and choosing the correct master",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/74034114/pythonpyspark-file-locally-connecting-to-a-remote-hdfs-spark-yarn-cluster",
+      "real_problem": "A user confuses HDFS URLs with the Spark/YARN master and asks how a remote client selects YARN.",
+      "category": "C_yarn_deploy_mode",
+      "spark_3_5_9_basis": "For this benchmark, master is fixed to yarn; cluster endpoints are inherited from Hadoop/YARN configuration.",
+      "screening_status": "OUT_OF_SCOPE_FORMAL",
+      "candidate_rule_ids": [],
+      "potential_task_forms": [],
+      "notes": "Real but infrastructure-heavy; avoid making cluster endpoint/HADOOP_CONF_DIR management part of first-paper benchmark."
+    },
+    {
+      "source_case_id": "RC009",
+      "title": "spark-submit options placed after application resource are interpreted as application arguments",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/49265613/submit-a-spark-job-on-a-yarn-cluster-from-a-remote-client",
+      "real_problem": "A user places --deploy-mode and --master after the application jar and does not get the intended submission behavior.",
+      "category": "C_yarn_deploy_mode",
+      "spark_3_5_9_basis": "spark-submit syntax places Spark options before the application resource; the study's safe builder supplies the fixed resource.",
+      "screening_status": "OUT_OF_SCOPE_FORMAL",
+      "candidate_rule_ids": [],
+      "potential_task_forms": [],
+      "notes": "Useful justification for never executing raw model command text; safe builder canonicalizes argv and supplies ConfigProbe resource."
+    },
+    {
+      "source_case_id": "RC010",
+      "title": "Legacy yarn-cluster versus --master yarn --deploy-mode cluster",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/46854779/how-to-get-the-progress-bar-with-stages-and-tasks-with-yarn-cluster-master",
+      "real_problem": "A real question discusses yarn-cluster and the equivalent modern separation of master and deploy mode.",
+      "category": "C_yarn_deploy_mode",
+      "spark_3_5_9_basis": "Spark 3.5.9 submission uses master=yarn and deploy-mode=cluster; the current harness already rejects literal yarn-cluster.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "convert a legacy yarn-cluster intent into Spark 3.5.9 master/deploy-mode settings",
+        "detect invalid legacy master value"
+      ],
+      "notes": "Already covered as a blocked C3 case; good negative task provenance."
+    },
+    {
+      "source_case_id": "RC011",
+      "title": "Submitting a Spark job to a specific YARN queue",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/39772030/submitting-spark-job-on-scheduler-pool",
+      "real_problem": "A user wants a Spark application to run in a particular YARN queue rather than the default queue.",
+      "category": "C_yarn_runtime",
+      "spark_3_5_9_basis": "Spark 3.5.9 documents spark.yarn.queue / --queue as the YARN queue for submission.",
+      "screening_status": "READY_WITH_CURRENT_P0_DEFAULT_QUEUE",
+      "candidate_rule_ids": [
+        "R04_YARN_QUEUE"
+      ],
+      "potential_task_forms": [
+        "submit to default queue explicitly"
+      ],
+      "notes": "Non-default queue variants require adding and freezing a second known YARN queue before Formal use."
+    },
+    {
+      "source_case_id": "RC012",
+      "title": "How to make spark-submit exit after YARN submission",
+      "source_type": "STACK_OVERFLOW + USER_REAL_CASE",
+      "url": "https://stackoverflow.com/questions/37200388/how-to-exit-spark-submit-after-the-submission",
+      "real_problem": "Users want the submit client to return after successful YARN submission rather than wait for application completion; the research user encountered this exact behavior.",
+      "category": "C_yarn_runtime",
+      "spark_3_5_9_basis": "Spark 3.5.9 documents spark.yarn.submit.waitAppCompletion for YARN cluster mode.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R05_WAIT_COMPLETION"
+      ],
+      "potential_task_forms": [
+        "asynchronous submit client return",
+        "contrast true versus false behavior"
+      ],
+      "notes": "One of the strongest real-world runtime-semantic cases in the current benchmark."
+    },
+    {
+      "source_case_id": "RC013",
+      "title": "What is the impact of spark.yarn.submit.waitAppCompletion=false?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/61564282/what-is-the-impact-of-adding-spark-yarn-submit-waitappcompletion-false",
+      "real_problem": "A user asks what operational behavior changes when waitAppCompletion is false.",
+      "category": "C_yarn_runtime",
+      "spark_3_5_9_basis": "Same Spark 3.5.9 waitAppCompletion rule as RC012.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R05_WAIT_COMPLETION"
+      ],
+      "potential_task_forms": [
+        "require caller to return immediately after submission while application continues"
+      ],
+      "notes": "Use Apache Spark/YARN behavior only; do not import EMR-specific lifecycle semantics into the benchmark."
+    },
+    {
+      "source_case_id": "RC014",
+      "title": "Executor memory configured as 6G but Spark UI shows smaller storage memory",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/61042002/spark-ui-executors-tab-incorrect-memory-for-executor-memory",
+      "real_problem": "A user confuses executor heap configuration with a smaller storage-memory figure shown in the UI.",
+      "category": "A_resource_configuration",
+      "spark_3_5_9_basis": "Spark 3.5.9 defines spark.executor.memory as executor JVM heap; Effective SparkConf is the correct primary observation for the configured value.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R01_EXECUTOR_MEMORY"
+      ],
+      "potential_task_forms": [
+        "set executor heap memory to a requested value",
+        "distinguish configured heap from derived UI storage-memory metrics"
+      ],
+      "notes": "Formal task should ask for executor heap, not ask model to calculate storage memory."
+    },
+    {
+      "source_case_id": "RC015",
+      "title": "YARN container killed for exceeding memory limits; memoryOverhead confusion",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/51237116/understanding-spark-yarn-executor-memoryoverhead",
+      "real_problem": "A YARN application is killed for exceeding container memory and the user asks how executor heap and overhead relate.",
+      "category": "A_resource_configuration",
+      "spark_3_5_9_basis": "Spark 3.5.9 uses spark.executor.memoryOverhead; executor container memory includes heap plus overhead and other documented components.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R08_EXECUTOR_MEMORY_OVERHEAD"
+      ],
+      "potential_task_forms": [
+        "set executor memory overhead explicitly",
+        "combine executor heap and overhead constraints"
+      ],
+      "notes": "Very valuable real incident; add spark.executor.memoryOverhead to rule catalog and validate YARN resource observation before use. R08 runtime allocation revalidation PASS."
+    },
+    {
+      "source_case_id": "RC016",
+      "title": "Is spark.yarn.executor.memoryOverhead deprecated / renamed?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/58813117/is-spark-yarn-executor-memoryoverhead-deprecated",
+      "real_problem": "A user notices an older YARN-specific memory-overhead key disappearing from docs and asks what property to use.",
+      "category": "A_resource_configuration",
+      "spark_3_5_9_basis": "Spark 3.5.9 current property is spark.executor.memoryOverhead.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R08_EXECUTOR_MEMORY_OVERHEAD"
+      ],
+      "potential_task_forms": [
+        "use the current Spark 3.5.9 memory-overhead key rather than legacy YARN-specific naming"
+      ],
+      "notes": "Good version-drift task if the legacy alias behavior is explicitly tested before Formal inclusion. R08 validated current spark.executor.memoryOverhead behavior."
+    },
+    {
+      "source_case_id": "RC017",
+      "title": "Difference between --num-executors and --executor-cores on YARN",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/36852828/yarn-what-is-the-difference-between-number-of-executors-and-executor-cores-in-s",
+      "real_problem": "A user asks whether executor count and cores per executor represent the same resource dimension.",
+      "category": "B_driver_executor_composition",
+      "spark_3_5_9_basis": "Spark submission exposes distinct executor-instances and executor-cores settings.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R12_EXECUTOR_CORES",
+        "R13_EXECUTOR_INSTANCES"
+      ],
+      "potential_task_forms": [
+        "request N executors with C cores each",
+        "multi-constraint executor count + cores + memory"
+      ],
+      "notes": "Strong basis for composition tasks; A3/C3 already exercised executor cores and instances."
+    },
+    {
+      "source_case_id": "RC018",
+      "title": "Is --num-executors per node or total across the YARN application?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/39469501/spark-num-executors",
+      "real_problem": "A user is unsure whether --num-executors is a per-node quantity or the application's executor count.",
+      "category": "B_driver_executor_composition",
+      "spark_3_5_9_basis": "spark.executor.instances / --num-executors controls the application executor count under static allocation.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R13_EXECUTOR_INSTANCES"
+      ],
+      "potential_task_forms": [
+        "request an exact total executor count",
+        "combine instances and cores without interpreting instances as per-node"
+      ],
+      "notes": "Useful intent-mapping task."
+    },
+    {
+      "source_case_id": "RC019",
+      "title": "Can --num-executors override dynamic allocation?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/48352830/can-num-executors-override-dynamic-allocation-in-spark-submit",
+      "real_problem": "A user asks how static executor instances interact with dynamic allocation and initial executor count.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Spark 3.5.9 documents that if spark.executor.instances is larger than dynamicAllocation.initialExecutors, the initial executor count uses the larger value.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R11_DYNAMIC_INITIAL_PRECEDENCE"
+      ],
+      "potential_task_forms": [
+        "set dynamic allocation bounds and an initial executor count",
+        "reason about executor.instances interaction with initialExecutors"
+      ],
+      "notes": "Do not Formal-freeze until dynamic allocation runtime probe can observe initial/scale behavior robustly. R11 initial-executor precedence runtime validation PASS."
+    },
+    {
+      "source_case_id": "RC020",
+      "title": "Relationship among maxExecutors, num-executors and initialExecutors",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/62768677/what-is-the-relationship-between-maxexecutors-num-executors-and-initialexecutor",
+      "real_problem": "A user observes apparently conflicting dynamic-allocation settings and asks which determines the initial executor count.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Spark 3.5.9 current configuration rules must be used; community answers span older Spark versions.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R10_DYNAMIC_SCALE_RUNTIME",
+        "R11_DYNAMIC_INITIAL_PRECEDENCE"
+      ],
+      "potential_task_forms": [
+        "initial/min/max executor composition"
+      ],
+      "notes": "Excellent version-drift example; source provides problem provenance, not oracle. R11 initial-executor precedence runtime validation PASS."
+    },
+    {
+      "source_case_id": "RC021",
+      "title": "Does dynamic allocation require external shuffle service?",
+      "source_type": "STACK_OVERFLOW + APACHE_SPARK_JIRA",
+      "url": "https://stackoverflow.com/questions/78242804/does-spark-dynamic-allocation-depend-on-external-shuffle-service-to-work-well ; https://issues.apache.org/jira/browse/SPARK-27963 ; https://issues.apache.org/jira/browse/SPARK-39846",
+      "real_problem": "A recent user asks whether dynamic allocation still depends on an external shuffle service; Spark itself added shuffle tracking and later enabled it by default.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Spark 3.5.9 supports dynamic allocation with shuffle tracking; shuffleTracking.enabled defaults to true.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R06_DYNAMIC_SHUFFLE_TRACKING",
+        "R10_DYNAMIC_SCALE_RUNTIME"
+      ],
+      "potential_task_forms": [
+        "enable dynamic allocation on a cluster without external shuffle service using supported Spark 3.5.9 behavior"
+      ],
+      "notes": "Very strong real-world dependency task; current A3 proved acceptance/executor launch but not full scale-up/scale-down behavior. R10 scale-up/scale-down runtime validation PASS; R06 upgraded to whitelist YES."
+    },
+    {
+      "source_case_id": "RC022",
+      "title": "Prevent --conf in spark-submit from overriding spark-defaults.conf",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/79508338/prevent-conf-in-spark-submit-from-overriding-spark-defaults-conf",
+      "real_problem": "A deployment owner wants baseline settings in spark-defaults.conf to remain effective even when users pass conflicting --conf values, directly exposing Spark configuration precedence as an operational concern.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "Use only the problem as provenance; correctness is re-derived from frozen Spark 3.5.9 precedence behavior.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R02_SPARK_DEFAULTS_SOURCE",
+        "R03_CLI_OVER_DEFAULTS"
+      ],
+      "potential_task_forms": [
+        "override a conflicting default for one submission",
+        "keep non-conflicting defaults while overriding one property"
+      ],
+      "notes": "Recent real case. Community answer is not the oracle."
+    },
+    {
+      "source_case_id": "RC023",
+      "title": "Set Spark configuration and understand precedence",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/55057822/set-spark-configuration",
+      "real_problem": "A user asks where to set Spark properties and how values from SparkConf, spark-submit and spark-defaults.conf interact.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "Use frozen Spark 3.5.9 configuration precedence and the benchmark's isolated SPARK_CONF_DIR.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R02_SPARK_DEFAULTS_SOURCE",
+        "R03_CLI_OVER_DEFAULTS"
+      ],
+      "potential_task_forms": [
+        "place stable values in defaults",
+        "override one default via CLI while retaining another"
+      ],
+      "notes": "Useful independent provenance beyond RC001/RC002."
+    },
+    {
+      "source_case_id": "RC024",
+      "title": "Conflict between setMaster in SparkConf and --master in spark-submit",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/36197070/spark-difference-or-conflicts-between-setmaster-in-app-conf-and-master-flag-on",
+      "real_problem": "A user supplies the master both in application SparkConf and spark-submit and asks which one wins.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "Only precedence/source-placement concepts are used; benchmark remains YARN-only.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R03_CLI_OVER_DEFAULTS",
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "avoid conflicting master sources",
+        "express YARN master through the submission artifact"
+      ],
+      "notes": "Source mentions standalone in the original question; Formal tasks adapt only the generic precedence issue to YARN."
+    },
+    {
+      "source_case_id": "RC025",
+      "title": "How to set driver memory in spark-submit client mode",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/57882111/how-to-set-driver-memory-and-driver-memoryoverhead-in-spark-submit-client-mode",
+      "real_problem": "A user running Spark in client mode asks how to set driver memory and cites the rule that driver heap must be established before the driver JVM starts.",
+      "category": "B_driver_executor_placement",
+      "spark_3_5_9_basis": "Frozen R07 runtime probe verifies actual client driver heap.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R07_CLIENT_DRIVER_MEMORY_PLACEMENT"
+      ],
+      "potential_task_forms": [
+        "client-mode driver heap via --driver-memory",
+        "combine driver and executor resource requests"
+      ],
+      "notes": "Do not extend first-paper whitelist to driver memoryOverhead merely because the source mentions it."
+    },
+    {
+      "source_case_id": "RC026",
+      "title": "Spark on YARN: client vs cluster driver-memory differences",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/43931151/spark-on-yarn-yarn-client-vs-yarn-cluster-spark-driver-memory-differences",
+      "real_problem": "A user compares driver memory behavior under YARN client and cluster deployment.",
+      "category": "B_driver_executor_placement",
+      "spark_3_5_9_basis": "Formal tasks use only validated driver-memory and deploy-mode semantics.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R07_CLIENT_DRIVER_MEMORY_PLACEMENT",
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "client-mode driver placement",
+        "cluster versus client deployment composition"
+      ],
+      "notes": "UI memory fractions from the source are not imported into the oracle."
+    },
+    {
+      "source_case_id": "RC027",
+      "title": "Apache Spark differences between client and cluster deploy modes",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/37027732/apache-spark-differences-between-client-and-cluster-deploy-modes",
+      "real_problem": "A user asks where the driver runs and what operational difference client versus cluster deploy mode makes.",
+      "category": "C_yarn_deploy_mode",
+      "spark_3_5_9_basis": "Use frozen YARN deployment semantics only.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "keep driver on submit host with client mode",
+        "place driver under YARN with cluster mode"
+      ],
+      "notes": "Generic deploy-mode provenance."
+    },
+    {
+      "source_case_id": "RC028",
+      "title": "How to choose the queue for a Spark job using spark-submit",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/43551337/how-to-choose-the-queue-for-spark-job-using-spark-submit",
+      "real_problem": "A user asks how to submit a Spark application to a chosen YARN queue.",
+      "category": "C_yarn_runtime",
+      "spark_3_5_9_basis": "P0 exposes only the default queue; Formal variants therefore use queue=default unless the cluster profile is changed and re-frozen.",
+      "screening_status": "READY_WITH_CURRENT_P0_DEFAULT_QUEUE",
+      "candidate_rule_ids": [
+        "R04_YARN_QUEUE"
+      ],
+      "potential_task_forms": [
+        "explicitly select the default queue",
+        "combine queue selection with client or cluster mode"
+      ],
+      "notes": "Independent real queue provenance."
+    },
+    {
+      "source_case_id": "RC029",
+      "title": "How to check if a Spark streaming job is running",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/34329284/how-to-check-if-spark-streaming-job-is-running",
+      "real_problem": "A user wants the local submit process to remain alive so its lifetime can be used when monitoring a YARN cluster application.",
+      "category": "C_yarn_runtime",
+      "spark_3_5_9_basis": "Use only the validated waitAppCompletion=true/false behavior in YARN cluster mode.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R05_WAIT_COMPLETION",
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "keep submit client alive until completion",
+        "contrast monitored versus asynchronous submission"
+      ],
+      "notes": "Complements RC012/RC013 with the wait=true use case."
+    },
+    {
+      "source_case_id": "RC030",
+      "title": "How to specify the number of executors to hold an RDD",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/25589678/spark-how-to-specify-the-number-of-executors-to-hold-an-rdd/44674021",
+      "real_problem": "A user asks how executor count is specified and the spark-submit help text also shows the relationship with dynamic allocation initial executors.",
+      "category": "B_driver_executor_composition",
+      "spark_3_5_9_basis": "Formal tasks use only frozen R12/R13/R11 behavior, not workload-sizing advice.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R12_EXECUTOR_CORES",
+        "R13_EXECUTOR_INSTANCES",
+        "R11_DYNAMIC_INITIAL_PRECEDENCE"
+      ],
+      "potential_task_forms": [
+        "exact total executor count",
+        "combine executor count and cores",
+        "dynamic initial-count composition"
+      ],
+      "notes": "Useful real resource-intent provenance."
+    },
+    {
+      "source_case_id": "RC031",
+      "title": "Should executor cores be set to one in YARN mode?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/57440709/should-the-number-of-executor-core-for-apache-spark-be-set-to-1-in-yarn-mode",
+      "real_problem": "A user asks whether one executor core means a single-threaded executor and discusses resource shaping.",
+      "category": "B_driver_executor_composition",
+      "spark_3_5_9_basis": "Formal tasks ask only for exact per-executor core counts, not tuning recommendations.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R12_EXECUTOR_CORES"
+      ],
+      "potential_task_forms": [
+        "request two or three cores per executor",
+        "combine cores with a fixed executor count"
+      ],
+      "notes": "No performance-optimality claims are imported."
+    },
+    {
+      "source_case_id": "RC032",
+      "title": "How to set executor number by memory in YARN mode",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/35349157/how-to-set-executor-number-by-memory-in-yarn-mode",
+      "real_problem": "A user asks how executor counts are bounded by YARN resources and how dynamic allocation min/max affect executor numbers.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Use frozen executor-count and dynamic-allocation semantics; do not turn the task into performance sizing.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R13_EXECUTOR_INSTANCES",
+        "R10_DYNAMIC_SCALE_RUNTIME"
+      ],
+      "potential_task_forms": [
+        "bounded dynamic executor count",
+        "static total executor count under YARN"
+      ],
+      "notes": "Resource-sizing advice from answers is not an oracle."
+    },
+    {
+      "source_case_id": "RC033",
+      "title": "Why increase spark.yarn.executor.memoryOverhead?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/49988475/why-increase-spark-yarn-executor-memoryoverhead",
+      "real_problem": "A user sees YARN kill an executor container for exceeding physical memory and asks what memory overhead represents.",
+      "category": "A_resource_configuration",
+      "spark_3_5_9_basis": "Formal tasks use current Spark 3.5.9 spark.executor.memoryOverhead and frozen YARN allocation observations.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R08_EXECUTOR_MEMORY_OVERHEAD"
+      ],
+      "potential_task_forms": [
+        "explicit overhead with executor heap",
+        "reason about container allocation versus heap"
+      ],
+      "notes": "Strong additional memory-overhead incident."
+    },
+    {
+      "source_case_id": "RC034",
+      "title": "Container killed by YARN for exceeding memory limits on EMR",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/40781354/container-killed-by-yarn-for-exceeding-memory-limits-10-4-gb-of-10-4-gb-physic",
+      "real_problem": "A Spark-on-YARN job reports that a container exceeded its physical memory limit and points to executor memory overhead.",
+      "category": "A_resource_configuration",
+      "spark_3_5_9_basis": "Only the general heap-plus-overhead configuration problem is adapted; EMR-specific tuning is excluded.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R08_EXECUTOR_MEMORY_OVERHEAD"
+      ],
+      "potential_task_forms": [
+        "heap plus explicit overhead request",
+        "container-memory incident repair wording"
+      ],
+      "notes": "Problem provenance only."
+    },
+    {
+      "source_case_id": "RC035",
+      "title": "Spark job failed with container killed by YARN for exceeding physical memory limits",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/77938668/spark-job-failed-with-container-killed-by-yarn-for-exceeding-physical-memory-li",
+      "real_problem": "A 2024 Spark job uses explicit executor heap and memory overhead but still encounters YARN physical-memory kills.",
+      "category": "A_resource_configuration",
+      "spark_3_5_9_basis": "Use only the real incident motivation for separating heap from overhead.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R01_EXECUTOR_MEMORY",
+        "R08_EXECUTOR_MEMORY_OVERHEAD"
+      ],
+      "potential_task_forms": [
+        "separate executor JVM heap from overhead",
+        "compose heap and overhead with other resource constraints"
+      ],
+      "notes": "Recent incident provenance; not a tuning oracle."
+    },
+    {
+      "source_case_id": "RC036",
+      "title": "Check if External Shuffle Service is enabled on a YARN cluster",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/63025103/check-if-external-shuffle-service-is-enabled-on-yarn-cluster",
+      "real_problem": "A user wants dynamic allocation but is unsure whether the YARN external shuffle service is available.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Spark 3.5.9 supports shuffle tracking as a validated alternative in the frozen P0 cluster.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R06_DYNAMIC_SHUFFLE_TRACKING"
+      ],
+      "potential_task_forms": [
+        "dynamic allocation when external shuffle service is unavailable",
+        "explicitly disable external shuffle and use shuffle tracking"
+      ],
+      "notes": "Original question predates modern shuffle-tracking defaults; oracle is Spark 3.5.9."
+    },
+    {
+      "source_case_id": "RC037",
+      "title": "SPARK-39846: Enable dynamic allocation shuffle tracking by default",
+      "source_type": "APACHE_SPARK_JIRA",
+      "url": "https://issues.apache.org/jira/browse/SPARK-39846",
+      "real_problem": "Spark changed shuffle tracking to be enabled by default, making dynamic allocation without external shuffle service a version-sensitive configuration scenario.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Spark 3.5.9 frozen docs show spark.dynamicAllocation.shuffleTracking.enabled default=true.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R06_DYNAMIC_SHUFFLE_TRACKING"
+      ],
+      "potential_task_forms": [
+        "rely on the Spark 3.5.9 shuffle-tracking default",
+        "explicitly enable shuffle tracking for clarity"
+      ],
+      "notes": "Primary-project provenance; especially valuable for version-drift tasks."
+    },
+    {
+      "source_case_id": "RC038",
+      "title": "SPARK-16435: initialExecutors below minExecutors",
+      "source_type": "APACHE_SPARK_JIRA",
+      "url": "https://issues.apache.org/jira/browse/SPARK-16435",
+      "real_problem": "Spark treats an initial dynamic executor count below the minimum as an invalid relationship.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Formal tasks use only valid min/initial/max bundles and the frozen validator/runtime behavior.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R10_DYNAMIC_SCALE_RUNTIME"
+      ],
+      "potential_task_forms": [
+        "construct valid min/initial/max relationships",
+        "avoid initial-below-min configurations"
+      ],
+      "notes": "The benchmark asks for valid configurations rather than deliberately crashing invalid ones."
+    },
+    {
+      "source_case_id": "RC039",
+      "title": "SPARK-7699: Dynamic allocation initial executors may be canceled before first job",
+      "source_type": "APACHE_SPARK_JIRA",
+      "url": "https://issues.apache.org/jira/browse/SPARK-7699",
+      "real_problem": "A Spark issue documents practical behavior around min, initial and max executor counts under dynamic allocation.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Use only current frozen Spark 3.5.9 behavior and R10/R11 runtime assertions.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R10_DYNAMIC_SCALE_RUNTIME",
+        "R11_DYNAMIC_INITIAL_PRECEDENCE"
+      ],
+      "potential_task_forms": [
+        "initial/min/max composition",
+        "observe requested initial executor population"
+      ],
+      "notes": "Historical issue supplies ecological provenance, not current-version oracle."
+    },
+    {
+      "source_case_id": "RC040",
+      "title": "SPARK-10790: Dynamic allocation and initial executors",
+      "source_type": "APACHE_SPARK_JIRA",
+      "url": "https://issues.apache.org/jira/browse/SPARK-10790",
+      "real_problem": "A Spark issue concerns whether the requested initial dynamic executor population is actually acquired.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Formal task correctness comes from Spark 3.5.9 execution on P0 and frozen R10/R11 assertions.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R10_DYNAMIC_SCALE_RUNTIME",
+        "R11_DYNAMIC_INITIAL_PRECEDENCE"
+      ],
+      "potential_task_forms": [
+        "initial executor observation",
+        "dynamic scale behavior from a bounded initial state"
+      ],
+      "notes": "Historical behavior motivates runtime grounding."
+    },
+    {
+      "source_case_id": "RC041",
+      "title": "SPARK-25410: YARN executor memoryOverhead and resource allocation",
+      "source_type": "APACHE_SPARK_JIRA",
+      "url": "https://issues.apache.org/jira/browse/SPARK-25410",
+      "real_problem": "The issue discusses how YARN executor resource capability includes executor memory plus memory overhead.",
+      "category": "A_resource_configuration",
+      "spark_3_5_9_basis": "Frozen R08 independently verifies Spark 3.5.9 YARN allocation using RM observations and allocation normalization.",
+      "screening_status": "READY",
+      "candidate_rule_ids": [
+        "R08_EXECUTOR_MEMORY_OVERHEAD"
+      ],
+      "potential_task_forms": [
+        "explicit heap plus overhead with runtime allocation verification"
+      ],
+      "notes": "Primary-project provenance."
+    },
+    {
+      "source_case_id": "RC042",
+      "title": "SPARK-53503: Spark Submit --properties-file currently uses local paths",
+      "source_type": "APACHE_SPARK_JIRA",
+      "url": "https://issues.apache.org/jira/browse/SPARK-53503",
+      "real_problem": "An improvement request documents the existing --properties-file mechanism and proposes remote-file support for later Spark versions.",
+      "category": "D_config_source_precedence",
+      "spark_3_5_9_basis": "Formal tasks, if admitted, use only a local per-run properties file and frozen Spark 3.5.9 R09 behavior.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R09_PROPERTIES_FILE"
+      ],
+      "potential_task_forms": [
+        "generate content for a local custom properties file passed via --properties-file"
+      ],
+      "notes": "Do not use remote HDFS properties-file behavior; that proposal targets later Spark."
+    },
+    {
+      "source_case_id": "RC043",
+      "title": "How to execute Spark programs with Dynamic Resource Allocation?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/40200389/how-to-execute-spark-programs-with-dynamic-resource-allocation",
+      "real_problem": "A user asks how to submit a YARN Spark application with dynamic allocation and shows min/initial/max executors together with driver and executor resource options.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Formal tasks adapt the multi-setting shape but use Spark 3.5.9 shuffle-tracking semantics rather than the older external-shuffle-only assumption.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R06_DYNAMIC_SHUFFLE_TRACKING",
+        "R10_DYNAMIC_SCALE_RUNTIME",
+        "R11_DYNAMIC_INITIAL_PRECEDENCE",
+        "R12_EXECUTOR_CORES",
+        "R13_EXECUTOR_INSTANCES"
+      ],
+      "potential_task_forms": [
+        "dynamic min/initial/max composition",
+        "dynamic allocation combined with executor resources",
+        "initial-executor interaction"
+      ],
+      "notes": "Strong real multi-constraint source; old-version dependency advice is not the oracle."
+    },
+    {
+      "source_case_id": "RC044",
+      "title": "Spark with YARN: point in providing Spark resource-related parameters?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/29563115/spark-with-yarn-point-in-providing-spark-resource-related-parameters",
+      "real_problem": "A user asks what executor count, executor memory, executor cores, driver memory and YARN queue parameters mean when submitting Spark on YARN.",
+      "category": "B_driver_executor_composition",
+      "spark_3_5_9_basis": "Formal tasks adapt resource/deploy composition only; no performance-sizing recommendation is treated as oracle.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R01_EXECUTOR_MEMORY",
+        "R04_YARN_QUEUE",
+        "R07_CLIENT_DRIVER_MEMORY_PLACEMENT",
+        "R12_EXECUTOR_CORES",
+        "R13_EXECUTOR_INSTANCES"
+      ],
+      "potential_task_forms": [
+        "multi-resource spark-submit bundle",
+        "resource bundle plus queue",
+        "driver/executor separation"
+      ],
+      "notes": "Excellent broad real-world resource source."
+    },
+    {
+      "source_case_id": "RC045",
+      "title": "How much should one choose executors and cores on a spark-submit job?",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/66284085/how-much-should-one-choose-the-number-of-executors-and-cores-on-a-spark-submit-j",
+      "real_problem": "A user presents a YARN cluster-mode submission with executor memory, driver memory, executor cores, executor count and the default queue while asking about resource shaping.",
+      "category": "F_integrated",
+      "spark_3_5_9_basis": "Formal tasks scale values to the frozen P0 envelope and test configuration correctness, not optimal sizing.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R01_EXECUTOR_MEMORY",
+        "R04_YARN_QUEUE",
+        "R12_EXECUTOR_CORES",
+        "R13_EXECUTOR_INSTANCES",
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "cluster-mode resource bundle with queue",
+        "integrated resource/deploy task"
+      ],
+      "notes": "Direct provenance for integrated tasks."
+    },
+    {
+      "source_case_id": "RC046",
+      "title": "Container killed by YARN: full spark-submit resource command",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/56734289/reason-container-killed-by-yarn-for-exceeding-memory-limits-24-1-gb-of-24-gb-p",
+      "real_problem": "A real spark-submit command combines YARN cluster mode, executor count, cores, executor memory, driver memory, executor memory overhead and asynchronous wait behavior while troubleshooting YARN memory kills.",
+      "category": "F_integrated",
+      "spark_3_5_9_basis": "Formal tasks scale the values to P0 and use current spark.executor.memoryOverhead, while preserving the multi-constraint operational shape.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R01_EXECUTOR_MEMORY",
+        "R05_WAIT_COMPLETION",
+        "R08_EXECUTOR_MEMORY_OVERHEAD",
+        "R12_EXECUTOR_CORES",
+        "R13_EXECUTOR_INSTANCES",
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "cluster resource bundle plus memory overhead and async submit",
+        "memory-incident integrated task"
+      ],
+      "notes": "Strong direct integrated-task provenance."
+    },
+    {
+      "source_case_id": "RC047",
+      "title": "Amazon EMR and YARN deployment mode",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/59921797/amazon-emr-and-yarn-deployment-mode",
+      "real_problem": "A user discusses client versus cluster deployment and shows a YARN cluster spark-submit command with executor count, cores and memory.",
+      "category": "C_yarn_deploy_mode",
+      "spark_3_5_9_basis": "Only generic YARN deploy/resource semantics are adapted; EMR defaults are not part of the oracle.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R01_EXECUTOR_MEMORY",
+        "R12_EXECUTOR_CORES",
+        "R13_EXECUTOR_INSTANCES",
+        "R14_YARN_DEPLOY_MODE"
+      ],
+      "potential_task_forms": [
+        "cluster deploy with a resource bundle",
+        "client versus cluster intent"
+      ],
+      "notes": "Useful direct C/B provenance."
+    },
+    {
+      "source_case_id": "RC048",
+      "title": "Running multiple similar spark-submit jobs on YARN with dynamic allocation",
+      "source_type": "STACK_OVERFLOW",
+      "url": "https://stackoverflow.com/questions/49758171/running-multiple-similar-spark-submit-jobs-on-yarn",
+      "real_problem": "A user wants multiple YARN Spark submissions to coexist and discusses dynamic allocation with enabled flag, min/max/initial executors and shuffle-service behavior.",
+      "category": "E_dependency_interaction",
+      "spark_3_5_9_basis": "Formal tasks preserve min/initial/max composition but use the frozen Spark 3.5.9 shuffle-tracking option for the no-external-service P0 profile.",
+      "screening_status": "READY_PROVENANCE_ONLY",
+      "candidate_rule_ids": [
+        "R06_DYNAMIC_SHUFFLE_TRACKING",
+        "R10_DYNAMIC_SCALE_RUNTIME"
+      ],
+      "potential_task_forms": [
+        "bounded dynamic allocation",
+        "dynamic allocation combined with deploy mode"
+      ],
+      "notes": "Real operational use case; older external-shuffle advice is version-adjusted by the oracle."
+    }
+  ]
+}

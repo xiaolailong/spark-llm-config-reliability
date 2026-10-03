@@ -1,0 +1,12 @@
+generated_utc	2026-10-03 11:13:28 UTC
+input_csv	/home/chenll/spark_llm/paper_core/04_analysis/sensitivity_v01/rescored_v01/sensitivity_master_540_v01.csv
+input_sha256	adeee99efc8116baadca992a60e4f09dba4e949a697864e20f459d9d53cbc7b9
+strict_to_sensitivity_flips	55
+bootstrap_seed	20261001
+bootstrap_replicates	10000
+glmm_accepted	TRUE
+gee_fallback_used	FALSE
+R	R version 4.5.3 (2026-03-11)
+lme4	2.0.6
+emmeans	2.0.4
+geepack	1.3.13

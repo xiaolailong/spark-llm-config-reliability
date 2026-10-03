@@ -1,0 +1,120 @@
+{
+  "schema_version": "1",
+  "event": "PARSER_ENGINEERING_FIX_V011",
+  "created_utc": "20261001T044653Z",
+  "old_sha256": "82534e2f7a3d2ba8347a71ccbbf1c3df7ec973000093a726aa61f899714e2685",
+  "new_sha256": "0237a71d185cf4fe9f3bdc05d8088d244debfc84c258444a4b454f255b4f49db",
+  "formal_raw_responses_audited": 672,
+  "dataset_counts": {
+    "qwen_initial": 180,
+    "qwen_repair": 96,
+    "deepseek_initial": 180,
+    "deepseek_repair": 36,
+    "gpt_initial": 180
+  },
+  "semantic_parse_differences": [
+    {
+      "dataset": "gpt_initial",
+      "condition": "C1_frozen_official_docs_v04",
+      "task_id": "F_A03",
+      "raw": "--conf spark.executor.cores=3",
+      "old_parse_status": "PARSE_FAIL",
+      "new_parse_status": "OK",
+      "old_canonical": {
+        "settings": {},
+        "environment": {},
+        "extra_submit_options": [],
+        "unknown_submit_options": [],
+        "positionals": []
+      },
+      "new_canonical": {
+        "settings": {
+          "spark.executor.cores": [
+            {
+              "value": "3",
+              "source": "conf_cli",
+              "option": "--conf",
+              "raw": "--conf spark.executor.cores=3"
+            }
+          ]
+        },
+        "environment": {},
+        "extra_submit_options": [],
+        "unknown_submit_options": [],
+        "positionals": []
+      }
+    },
+    {
+      "dataset": "gpt_initial",
+      "condition": "C1_frozen_official_docs_v04",
+      "task_id": "F_A15",
+      "raw": "--conf spark.dynamicAllocation.enabled=false --conf spark.executor.instances=2 --conf spark.executor.cores=1 --conf spark.executor.memory=2g",
+      "old_parse_status": "PARSE_FAIL",
+      "new_parse_status": "OK",
+      "old_canonical": {
+        "settings": {},
+        "environment": {},
+        "extra_submit_options": [],
+        "unknown_submit_options": [],
+        "positionals": []
+      },
+      "new_canonical": {
+        "settings": {
+          "spark.dynamicAllocation.enabled": [
+            {
+              "value": "false",
+              "source": "conf_cli",
+              "option": "--conf",
+              "raw": "--conf spark.dynamicAllocation.enabled=false"
+            }
+          ],
+          "spark.executor.cores": [
+            {
+              "value": "1",
+              "source": "conf_cli",
+              "option": "--conf",
+              "raw": "--conf spark.executor.cores=1"
+            }
+          ],
+          "spark.executor.instances": [
+            {
+              "value": "2",
+              "source": "conf_cli",
+              "option": "--conf",
+              "raw": "--conf spark.executor.instances=2"
+            }
+          ],
+          "spark.executor.memory": [
+            {
+              "value": "2g",
+              "source": "conf_cli",
+              "option": "--conf",
+              "raw": "--conf spark.executor.memory=2g"
+            }
+          ]
+        },
+        "environment": {},
+        "extra_submit_options": [],
+        "unknown_submit_options": [],
+        "positionals": []
+      }
+    }
+  ],
+  "difference_count": 2,
+  "expected_difference_set": [
+    [
+      "gpt_initial",
+      "C1_frozen_official_docs_v04",
+      "F_A03"
+    ],
+    [
+      "gpt_initial",
+      "C1_frozen_official_docs_v04",
+      "F_A15"
+    ]
+  ],
+  "model_calls": 0,
+  "spark_runs": 0,
+  "reason": "Bare spark-submit options were allowed by prompt/design contract but not recognized by artifact extraction.",
+  "policy": "Engineering parser bug fix; raw model responses are unchanged. Revalidate only affected frozen responses."
+}

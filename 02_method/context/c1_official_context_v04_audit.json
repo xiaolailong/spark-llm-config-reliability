@@ -1,0 +1,310 @@
+{
+  "schema_version": "1",
+  "context_version": "0.4",
+  "passed": true,
+  "mapped_rule_count": 14,
+  "snippet_count": 18,
+  "prompt_snippet_count": 18,
+  "prompt_contamination_count": 0,
+  "forbidden_prompt_markers": [
+    "--class ",
+    "org.apache.spark.examples.SparkPi",
+    "examples/jars/",
+    "/path/to/",
+    "<app jar>",
+    "myApp.jar",
+    "--supervise",
+    "./bin/spark-submit",
+    "./bin/spark-shell"
+  ],
+  "context_file": "c1_official_context_v04.json",
+  "context_sha256": "e694b6727784a48e1446d642f35cd23eb5569410b0d096c821437a2419e02aca",
+  "source_manifest": "official_docs_manifest_v01.json",
+  "source_files": {
+    "configuration.html": "849b79fd118c92e5abbb4da991185cabe6a60534d591a8ea82ac79a2728b37ce",
+    "submitting-applications.html": "290b90c1f2e7a7214b2016a2a16a763619a42f3c8bdf3d1f7589954869f03eb2",
+    "running-on-yarn.html": "40685215d73777e4374eef55a2bb527d06e644bafcad58b49148ec0e84b961c1",
+    "job-scheduling.html": "e05642d2508fb3f008711ac1fedb2212beb31144511242317d7b7f3b74f9fa4d",
+    "monitoring.html": "241d49d39a91c0ed74e29f69e5b0b085738ecae54fefad3710b29410ecc46279"
+  },
+  "selection_audit": {
+    "CFG_PRECEDENCE": {
+      "source_file": "configuration.html",
+      "mode": "anchored_span",
+      "line_start": 140,
+      "line_end_exclusive": 146,
+      "start_contains": [
+        "Any values specified as flags or in the properties file"
+      ],
+      "end_contains": [
+        "precedence than any instance of the newer key."
+      ],
+      "contamination_hits": [],
+      "text_sha256": "adbbf51d56d1b624cb1a629d25a1656e3ed88844e1c50fd58eefa20e378c6361",
+      "char_count": 498,
+      "preview": "Any values specified as flags or in the properties file will be passed on to the application and merged with those specified through SparkConf. Properties set directly on the SparkConf take highest precedence, then flags passed to spark-submit or spark-shell, then options in the spark-defaults.conf file. A few configuration keys have been renamed since earlier versions of Spark; in such cases, the older key names are still accepted, but take lower precedence than any instance of the newer key."
+    },
+    "SUBMIT_PROPERTIES": {
+      "source_file": "submitting-applications.html",
+      "mode": "anchored_span",
+      "line_start": 181,
+      "line_end_exclusive": 186,
+      "start_contains": [
+        "Loading Configuration from a File"
+      ],
+      "end_contains": [
+        "loading default configurations."
+      ],
+      "contamination_hits": [],
+      "text_sha256": "7a1ebb5da575d2a05c234e02337cfd6844d07366195752c82040e5c7e78748ec",
+      "char_count": 317,
+      "preview": "Loading Configuration from a File The spark-submit script can load default Spark configuration values from a properties file and pass them on to your application. By default, it will read options from conf/spark-defaults.conf in the Spark directory. For more detail, see the section on loading default configurations."
+    },
+    "CFG_DRIVER_MEMORY": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.driver.memory",
+      "line_start": 185,
+      "line_end_exclusive": 196,
+      "contamination_hits": [],
+      "text_sha256": "604abee8380d7ae7c24386864e03371f40b9cf067412f83af1049ddd9b21f12a",
+      "char_count": 496,
+      "preview": "| spark.driver.memory | | 1g | | Amount of memory to use for the driver process, i.e. where SparkContext is initialized, in the same format as JVM memory strings with a size unit suffix (\"k\", \"m\", \"g\" or \"t\") (e.g. 512m, 2g). Note: In client mode, this config must not be set through the SparkConf directly in your application, because the driver JVM has already started at that point. Instead, please set this through the --driver-memory command line option or in your default properties file. |"
+    },
+    "CFG_EXECUTOR_MEMORY": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.executor.memory",
+      "line_start": 263,
+      "line_end_exclusive": 269,
+      "contamination_hits": [],
+      "text_sha256": "93ef37cd5af393468e8deb6f1a1229022524e56f97a2ff0bfb57c449e2566065",
+      "char_count": 187,
+      "preview": "| spark.executor.memory | | 1g | | Amount of memory to use per executor process, in the same format as JVM memory strings with a size unit suffix (\"k\", \"m\", \"g\" or \"t\") (e.g. 512m, 2g). |"
+    },
+    "CFG_EXECUTOR_OVERHEAD": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.executor.memoryOverhead",
+      "line_start": 284,
+      "line_end_exclusive": 297,
+      "contamination_hits": [],
+      "text_sha256": "772fdbd705fd6c0909c36efcc29bc41aed3985c784fbc85a67b85c75a6b0832f",
+      "char_count": 833,
+      "preview": "| spark.executor.memoryOverhead | | executorMemory * spark.executor.memoryOverheadFactor, with minimum of 384 | | Amount of additional memory to be allocated per executor process, in MiB unless otherwise specified. This is memory that accounts for things like VM overheads, interned strings, other native overheads, etc. This tends to grow with the executor size (typically 6-10%). This option is currently supported on YARN and Kubernetes. Note: Additional memory includes PySpark executor memory (w"
+    },
+    "CFG_EXECUTOR_CORES": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.executor.cores",
+      "line_start": 1671,
+      "line_end_exclusive": 1681,
+      "contamination_hits": [],
+      "text_sha256": "8b95bb9f46f79cd3d370f14f6a938eb41738ebdb23d97e7f806caaea38423fbc",
+      "char_count": 262,
+      "preview": "| spark.executor.cores | | 1 in YARN mode, all the available cores on the worker in standalone and Mesos coarse-grained modes. | | The number of cores to use on each executor. In standalone and Mesos coarse-grained modes, for more detail, see this description. |"
+    },
+    "YARN_MASTER_SEMANTICS": {
+      "source_file": "running-on-yarn.html",
+      "mode": "anchored_span",
+      "line_start": 71,
+      "line_end_exclusive": 75,
+      "start_contains": [
+        "There are two deploy modes that can be used to launch Spark applications on YARN."
+      ],
+      "end_contains": [
+        "Thus, the --master parameter is yarn."
+      ],
+      "contamination_hits": [],
+      "text_sha256": "91cd247989320882e2e8df2001af8dd8f3493d34682e32236288fb7c711c047a",
+      "char_count": 634,
+      "preview": "There are two deploy modes that can be used to launch Spark applications on YARN. In cluster mode, the Spark driver runs inside an application master process which is managed by YARN on the cluster, and the client can go away after initiating the application. In client mode, the driver runs in the client process, and the application master is only used for requesting resources from YARN. Unlike other cluster managers supported by Spark in which the master’s address is specified in the --master p"
+    },
+    "SUBMIT_YARN_DEPLOY_MODE": {
+      "source_file": "submitting-applications.html",
+      "mode": "anchored_span",
+      "line_start": 171,
+      "line_end_exclusive": 174,
+      "start_contains": [
+        "| yarn |"
+      ],
+      "end_contains": [
+        "HADOOP_CONF_DIR or YARN_CONF_DIR variable."
+      ],
+      "contamination_hits": [],
+      "text_sha256": "3d78db47da0a1f04a61b36b891ae2502d73e4c8f92c715b10d05169a18ab71f3",
+      "char_count": 194,
+      "preview": "| yarn | | Connect to a YARN cluster in client or cluster mode depending on the value of --deploy-mode. The cluster location will be found based on the HADOOP_CONF_DIR or YARN_CONF_DIR variable."
+    },
+    "YARN_INSTANCES": {
+      "source_file": "running-on-yarn.html",
+      "mode": "table_entry",
+      "property_key": "spark.executor.instances",
+      "line_start": 292,
+      "line_end_exclusive": 297,
+      "contamination_hits": [],
+      "text_sha256": "0f92c4de0211a66a619743a687471f088a985dd9bf0f0aafd01798dbc24c2e06",
+      "char_count": 181,
+      "preview": "| spark.executor.instances | | 2 | | The number of executors for static allocation. With spark.dynamicAllocation.enabled, the initial set of executors will be at least this large. |"
+    },
+    "YARN_QUEUE": {
+      "source_file": "running-on-yarn.html",
+      "mode": "table_entry",
+      "property_key": "spark.yarn.queue",
+      "line_start": 304,
+      "line_end_exclusive": 309,
+      "contamination_hits": [],
+      "text_sha256": "e3f713eb9ce55e885724c445e4067a7a79de0bc4452459e370cf1a966160ca8d",
+      "char_count": 102,
+      "preview": "| spark.yarn.queue | | default | | The name of the YARN queue to which the application is submitted. |"
+    },
+    "YARN_WAIT_APP_COMPLETION": {
+      "source_file": "running-on-yarn.html",
+      "mode": "table_entry",
+      "property_key": "spark.yarn.submit.waitAppCompletion",
+      "line_start": 418,
+      "line_end_exclusive": 425,
+      "contamination_hits": [],
+      "text_sha256": "9215acef74f6229628d00e90dc2853cdb79b10e0bceebc9bff314b510d018412",
+      "char_count": 294,
+      "preview": "| spark.yarn.submit.waitAppCompletion | | true | | In YARN cluster mode, controls whether the client waits to exit until the application completes. If set to true, the client process will stay alive reporting the application's status. Otherwise, the client process will exit after submission. |"
+    },
+    "CFG_DYNAMIC_ENABLED": {
+      "source_file": "configuration.html",
+      "mode": "anchored_span",
+      "line_start": 2444,
+      "line_end_exclusive": 2449,
+      "start_contains": [
+        "| spark.dynamicAllocation.enabled |"
+      ],
+      "end_contains": [
+        "with this application up and down based on the workload."
+      ],
+      "contamination_hits": [],
+      "text_sha256": "93e7abfef2b9e2fab7890f10a80a9163589b1f9784897d76dbb3d1f81eccc20e",
+      "char_count": 196,
+      "preview": "| spark.dynamicAllocation.enabled | | false | | Whether to use dynamic resource allocation, which scales the number of executors registered with this application up and down based on the workload."
+    },
+    "CFG_SHUFFLE_SERVICE_ENABLED": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.shuffle.service.enabled",
+      "line_start": 902,
+      "line_end_exclusive": 911,
+      "contamination_hits": [],
+      "text_sha256": "252197d7a7ffcc5e805b9c0e6c8cad0e5bcbe52dd27fc59f0e3b239e94961398",
+      "char_count": 417,
+      "preview": "| spark.shuffle.service.enabled | | false | | Enables the external shuffle service. This service preserves the shuffle files written by executors e.g. so that executors can be safely removed, or so that shuffle fetches can continue in the event of executor failure. The external shuffle service must be set up in order to enable it. See dynamic allocation configuration and setup documentation for more information. |"
+    },
+    "CFG_DYNAMIC_SHUFFLE_TRACKING": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.dynamicAllocation.shuffleTracking.enabled",
+      "line_start": 2531,
+      "line_end_exclusive": 2538,
+      "contamination_hits": [],
+      "text_sha256": "7e2fc0ad2bdea459379c6164deb830699a54a3a4716e20884ae04e68dc282476",
+      "char_count": 283,
+      "preview": "| spark.dynamicAllocation.shuffleTracking.enabled | | true | | Enables shuffle file tracking for executors, which allows dynamic allocation without the need for an external shuffle service. This option will try to keep alive executors that are storing shuffle data for active jobs. |"
+    },
+    "CFG_DYNAMIC_MIN": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.dynamicAllocation.minExecutors",
+      "line_start": 2493,
+      "line_end_exclusive": 2498,
+      "contamination_hits": [],
+      "text_sha256": "073c5063690a58847390b329d6fdab55c6c1e542c3e89e27c391f41c07bd12cd",
+      "char_count": 124,
+      "preview": "| spark.dynamicAllocation.minExecutors | | 0 | | Lower bound for the number of executors if dynamic allocation is enabled. |"
+    },
+    "CFG_DYNAMIC_INITIAL": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.dynamicAllocation.initialExecutors",
+      "line_start": 2479,
+      "line_end_exclusive": 2486,
+      "contamination_hits": [],
+      "text_sha256": "8af67044e88cb8344ce024cec3c0adf04bc2690027f4015f9f6291261448dddd",
+      "char_count": 298,
+      "preview": "| spark.dynamicAllocation.initialExecutors | | spark.dynamicAllocation.minExecutors | | Initial number of executors to run if dynamic allocation is enabled. If `--num-executors` (or `spark.executor.instances`) is set and larger than this value, it will be used as the initial number of executors. |"
+    },
+    "CFG_DYNAMIC_MAX": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.dynamicAllocation.maxExecutors",
+      "line_start": 2487,
+      "line_end_exclusive": 2492,
+      "contamination_hits": [],
+      "text_sha256": "2422b97ea9fc8f18086cdb5a6d12927264846bfd7f2a71061ec272db8b263567",
+      "char_count": 131,
+      "preview": "| spark.dynamicAllocation.maxExecutors | | infinity | | Upper bound for the number of executors if dynamic allocation is enabled. |"
+    },
+    "CFG_DYNAMIC_IDLE_TIMEOUT": {
+      "source_file": "configuration.html",
+      "mode": "table_entry",
+      "property_key": "spark.dynamicAllocation.executorIdleTimeout",
+      "line_start": 2463,
+      "line_end_exclusive": 2470,
+      "contamination_hits": [],
+      "text_sha256": "22461f1d7c2cd4f2ca8a40bde32d0157faba7a69ccc8ecd2f9a662cdb389b325",
+      "char_count": 220,
+      "preview": "| spark.dynamicAllocation.executorIdleTimeout | | 60s | | If dynamic allocation is enabled and an executor has been idle for more than this duration, the executor will be removed. For more detail, see this description. |"
+    }
+  },
+  "rule_to_snippets": {
+    "R01_EXECUTOR_MEMORY": [
+      "CFG_EXECUTOR_MEMORY"
+    ],
+    "R02_SPARK_DEFAULTS_SOURCE": [
+      "SUBMIT_PROPERTIES"
+    ],
+    "R03_CLI_OVER_DEFAULTS": [
+      "CFG_PRECEDENCE"
+    ],
+    "R04_YARN_QUEUE": [
+      "YARN_QUEUE"
+    ],
+    "R05_WAIT_COMPLETION": [
+      "YARN_WAIT_APP_COMPLETION"
+    ],
+    "R06_DYNAMIC_SHUFFLE_TRACKING": [
+      "CFG_DYNAMIC_ENABLED",
+      "CFG_SHUFFLE_SERVICE_ENABLED",
+      "CFG_DYNAMIC_SHUFFLE_TRACKING"
+    ],
+    "R07_CLIENT_DRIVER_MEMORY_PLACEMENT": [
+      "CFG_DRIVER_MEMORY"
+    ],
+    "R08_EXECUTOR_MEMORY_OVERHEAD": [
+      "CFG_EXECUTOR_MEMORY",
+      "CFG_EXECUTOR_OVERHEAD"
+    ],
+    "R09_PROPERTIES_FILE": [
+      "SUBMIT_PROPERTIES"
+    ],
+    "R10_DYNAMIC_SCALE_RUNTIME": [
+      "CFG_DYNAMIC_ENABLED",
+      "CFG_DYNAMIC_MIN",
+      "CFG_DYNAMIC_INITIAL",
+      "CFG_DYNAMIC_MAX",
+      "CFG_DYNAMIC_IDLE_TIMEOUT",
+      "CFG_SHUFFLE_SERVICE_ENABLED",
+      "CFG_DYNAMIC_SHUFFLE_TRACKING"
+    ],
+    "R11_DYNAMIC_INITIAL_PRECEDENCE": [
+      "CFG_DYNAMIC_INITIAL",
+      "YARN_INSTANCES"
+    ],
+    "R12_EXECUTOR_CORES": [
+      "CFG_EXECUTOR_CORES"
+    ],
+    "R13_EXECUTOR_INSTANCES": [
+      "YARN_INSTANCES"
+    ],
+    "R14_YARN_DEPLOY_MODE": [
+      "YARN_MASTER_SEMANTICS",
+      "SUBMIT_YARN_DEPLOY_MODE"
+    ]
+  }
+}

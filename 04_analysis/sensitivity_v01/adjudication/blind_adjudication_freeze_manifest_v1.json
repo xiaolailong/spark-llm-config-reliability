@@ -1,0 +1,17 @@
+{
+  "adjudication_id": "spark_llm_blinded_benign_extra_adjudication_v1",
+  "ambiguous_case_count": 0,
+  "benign_case_count": 55,
+  "blind_adjudication_extra_details_v1_csv_sha256": "2ea6cf19614cfe1d5a7e1ffd21b5ef3a363e6b0995ae282ff5d34d5321508ef8",
+  "blind_adjudication_v1_csv_sha256": "59a18078426e90b39661497b56cb016aabb7df29ae2ffb874e55540a20107530",
+  "blind_adjudication_v1_json_sha256": "269b8ad6b9d195c401bdecd7b60cf02680f84eb32ceed130e3ac5003742104c0",
+  "blind_adjudication_v1_md_sha256": "1a03d42fb0ad2366fae23cd41cb5da1385472d08223cf91b23f52cbc1873a727",
+  "candidate_count": 65,
+  "expected_private_mapping_sha256": "916d4aadf68a0c6eb43fbfff8a50275e96a04a3e11d47f640c7e1ed7804aee45",
+  "harmful_case_count": 10,
+  "master_csv_sha256": "cb8418c2861be415ce80fa3738a5c170805d5e24fe2db7cf94b89c49cc1b5320",
+  "policy_json_sha256": "fe587f0f6d8a74b0299849833db71687fa4e6369720d8f067b492d7208d5c49e",
+  "policy_md_sha256": "d0c7f0f024a6dbb1217d2db73d3031b6cc82d38b4c046b01ec2a3c1e53f5190f",
+  "source_candidate_package_sha256": "780228169aea731bb8607d1f71358bcc4fc144865f2e34bfe2b458c846bd289a",
+  "status": "FROZEN_BEFORE_UNBLINDING"
+}

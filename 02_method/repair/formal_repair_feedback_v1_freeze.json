@@ -1,0 +1,41 @@
+{
+  "schema_version": "1",
+  "component": "FORMAL_REPAIR_FEEDBACK_PROTOCOL",
+  "protocol_version": "1.0",
+  "sanitizer_version": "0.1",
+  "status": "FROZEN",
+  "scope": "Formal benchmark and later; Pilot scores remain unchanged",
+  "protocol_file_hashes": {
+    "48_repair_feedback_sanitizer_v01.py": "0e4d300950d609981ef9871c2b33fca0210f1274184f9fcffb5f85c9bce3da1f",
+    "49_test_repair_feedback_sanitizer_v01.py": "2978df49ce5c0820a92a4221d023d09d70a0d3ec9aeb3c428eb8ed13cdddf0c9",
+    "50_audit_formal_repair_feedback_protocol_v01.py": "9c66c92accd64621701a2afaeac0024fce2e1765eca78d15cdef264a802a3f5f",
+    "51_pack_formal_repair_feedback_protocol_audit.py": "e4c138bf7e4eb1610b16ca3ead47a763739b981d4e547fdc253d2329eef35a52",
+    "FORMAL_REPAIR_FEEDBACK_PROTOCOL_V1_20260930.md": "2228ddf434d946c9e6e356f626c0524f025583ffc7789807f0051820ab3a6024",
+    "README_FORMAL_REPAIR_FEEDBACK_V1.txt": "bf8c5b459a383857d2789c9351e523dddc3d3cba22dfef6df74398c489e89902"
+  },
+  "hash_manifest_sha256": "d2b11a479307ddc2ac4a2a9757c70855053a8b89547d65bcb603c02c939f8283",
+  "audit_dir": "results/formal_repair_feedback_v1_audit_20260930T083622Z",
+  "audit_summary_sha256": "1cb1278a1fd51f25a304c0f841366b7676c60e3aa5274288d5b6c68713a05dc4",
+  "audit_checks": {
+    "audit_pass": true,
+    "failure_case_count_39": true,
+    "forbidden_after_0": true,
+    "model_calls_0": true,
+    "spark_runs_0": true,
+    "qwen_c0_21": true,
+    "qwen_c1_5": true,
+    "deepseek_c0_9": true,
+    "deepseek_c1_4": true
+  },
+  "frozen_policy": {
+    "max_repairs_per_initial_failure": 1,
+    "repair_initial_successes": false,
+    "c0_add_official_docs_during_repair": false,
+    "c1_reuse_same_frozen_context": true,
+    "expose_expected_or_reference_values": false,
+    "feedback_whitelist_required": true,
+    "raw_validator_object_in_prompt": false,
+    "raw_runtime_assertion_object_in_prompt": false
+  },
+  "frozen_at_utc": "2026-09-30T08:44:42.778562+00:00"
+}

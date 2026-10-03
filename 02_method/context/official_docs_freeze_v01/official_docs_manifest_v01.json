@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "freeze_id": "SPARK_3_5_9_OFFICIAL_DOCS_V01",
+  "spark_version": "3.5.9",
+  "docs_dir": "/home/chenll/spark_llm/official_docs/spark-3.5.9",
+  "required_files": [
+    "configuration.html",
+    "submitting-applications.html",
+    "running-on-yarn.html",
+    "job-scheduling.html",
+    "monitoring.html"
+  ],
+  "file_count": 5,
+  "errors": [],
+  "passed": true,
+  "files": [
+    {
+      "filename": "configuration.html",
+      "path": "/home/chenll/spark_llm/official_docs/spark-3.5.9/configuration.html",
+      "size_bytes": 256286,
+      "sha256": "849b79fd118c92e5abbb4da991185cabe6a60534d591a8ea82ac79a2728b37ce",
+      "title": "Configuration - Spark 3.5.9 Documentation",
+      "normalized_text_file": "/home/chenll/spark_llm/official_docs_freeze_v01/text/configuration.html.txt",
+      "normalized_text_sha256": "72e14e6b9ef3867151d5d1442da53a66c22b00338a70791b091438231f433c19"
+    },
+    {
+      "filename": "submitting-applications.html",
+      "path": "/home/chenll/spark_llm/official_docs/spark-3.5.9/submitting-applications.html",
+      "size_bytes": 31221,
+      "sha256": "290b90c1f2e7a7214b2016a2a16a763619a42f3c8bdf3d1f7589954869f03eb2",
+      "title": "Submitting Applications - Spark 3.5.9 Documentation",
+      "normalized_text_file": "/home/chenll/spark_llm/official_docs_freeze_v01/text/submitting-applications.html.txt",
+      "normalized_text_sha256": "8c64693ca21a88e7b547a275a5f95441ca31f99076cbc4d286d38fa222e49a18"
+    },
+    {
+      "filename": "running-on-yarn.html",
+      "path": "/home/chenll/spark_llm/official_docs/spark-3.5.9/running-on-yarn.html",
+      "size_bytes": 76873,
+      "sha256": "40685215d73777e4374eef55a2bb527d06e644bafcad58b49148ec0e84b961c1",
+      "title": "Running Spark on YARN - Spark 3.5.9 Documentation",
+      "normalized_text_file": "/home/chenll/spark_llm/official_docs_freeze_v01/text/running-on-yarn.html.txt",
+      "normalized_text_sha256": "07f9e56e48b4fcdf5a99f7871a2358ce1e85bfaf8c4cd1ff0b29eee4a8d1b679"
+    },
+    {
+      "filename": "job-scheduling.html",
+      "path": "/home/chenll/spark_llm/official_docs/spark-3.5.9/job-scheduling.html",
+      "size_bytes": 40174,
+      "sha256": "e05642d2508fb3f008711ac1fedb2212beb31144511242317d7b7f3b74f9fa4d",
+      "title": "Job Scheduling - Spark 3.5.9 Documentation",
+      "normalized_text_file": "/home/chenll/spark_llm/official_docs_freeze_v01/text/job-scheduling.html.txt",
+      "normalized_text_sha256": "967e16d5960155bb7f93de27653225587c57e22b18058684c41cae4ce348c173"
+    },
+    {
+      "filename": "monitoring.html",
+      "path": "/home/chenll/spark_llm/official_docs/spark-3.5.9/monitoring.html",
+      "size_bytes": 88087,
+      "sha256": "241d49d39a91c0ed74e29f69e5b0b085738ecae54fefad3710b29410ecc46279",
+      "title": "Monitoring and Instrumentation - Spark 3.5.9 Documentation",
+      "normalized_text_file": "/home/chenll/spark_llm/official_docs_freeze_v01/text/monitoring.html.txt",
+      "normalized_text_sha256": "3889ceb63ced37212980ff6ce23be8539d2d88fce4d429246239060a4749a6a1"
+    }
+  ]
+}

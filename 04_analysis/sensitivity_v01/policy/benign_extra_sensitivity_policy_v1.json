@@ -1,0 +1,114 @@
+{
+  "benign_all_required_criteria": [
+    "The extra is a recognized Spark 3.5.9/YARN configuration setting or recognized spark-submit option; unknown syntax is never benign.",
+    "Its value is syntactically valid under the frozen Spark 3.5.9 semantics.",
+    "All task-required settings, values, sources, and precedence constraints are already satisfied independently of this extra.",
+    "The extra cannot change the effective value or effective source of any task-required setting.",
+    "The extra is behaviorally inert for the task: it neither changes nor can reasonably change any task rule, runtime assertion, prerequisite, resource/deployment behavior, or dependency/interaction relevant to the task.",
+    "Benign status is supported by the frozen task specification plus frozen Spark 3.5.9 documentation / experiment fixture evidence; model identity or observed aggregate performance is not evidence.",
+    "If behavioral inertness cannot be established with high confidence, classify AMBIGUOUS, not BENIGN."
+  ],
+  "benign_mechanism_classes": {
+    "B_DUPLICATE_EQUIVALENT": "Semantically duplicate specification with exactly the same effective value, only when it cannot alter source/precedence and the task does not test source/precedence.",
+    "B_ENVIRONMENT_RESTATEMENT": "Explicit restatement of a frozen experiment-level invariant already imposed independently of model output, provided the task does not test that invariant or any dependent behavior.",
+    "B_METADATA_ONLY": "Recognized metadata-only setting/option that cannot affect task execution semantics or assertions."
+  },
+  "blinding": {
+    "adjudication_may_show": [
+      "blind_case_id",
+      "task_id",
+      "task prompt",
+      "category",
+      "rule_ids",
+      "required_exact_keys",
+      "oracle/task specification",
+      "raw generated artifact",
+      "authoritative parser result",
+      "authoritative static validation evidence"
+    ],
+    "adjudication_must_hide": [
+      "model",
+      "condition",
+      "aggregate success rates",
+      "candidate frequency by model"
+    ],
+    "private_mapping": "Stored locally and excluded from return package until adjudication decisions are frozen."
+  },
+  "candidate_gate": {
+    "allowed_error_code_family_only": [
+      "UNAUTHORIZED_SETTING",
+      "UNSUPPORTED_VALIDATOR_KEY",
+      "UNAUTHORIZED_EXTRA_SUBMIT_OPTION"
+    ],
+    "automatic_ineligible_if_any": [
+      "PARSER_NOT_OK",
+      "UNKNOWN_SUBMIT_OPTION",
+      "MODEL_POSITIONAL_ARGUMENT_NOT_ALLOWED",
+      "MISSING_REQUIRED_SETTING",
+      "TASK_VALUE_MISMATCH",
+      "INVALID_VALUE",
+      "DISALLOWED_CONFIGURATION_SOURCE",
+      "MULTIPLE_EFFECTIVE_VALUES"
+    ],
+    "initial_failure_layer": "STATIC",
+    "initial_parse_status": "OK",
+    "must_contain_extra_error": true,
+    "strict_initial_success": false
+  },
+  "case_rescoring_rule": {
+    "monotonicity": "Sensitivity scoring may flip strict 0→1 only; strict 1 never flips to 0.",
+    "strict_fail_candidate": "Sensitivity PASS if and only if every unauthorized extra is adjudicated BENIGN and no non-extra error is present; otherwise FAIL.",
+    "strict_fail_noncandidate": "Sensitivity FAIL.",
+    "strict_pass": "Sensitivity PASS."
+  },
+  "extra_decisions": [
+    "BENIGN",
+    "HARMFUL",
+    "AMBIGUOUS"
+  ],
+  "harmful_or_nonbenign_rules": {
+    "A_INSUFFICIENT_EVIDENCE": "Semantically plausible but frozen evidence is insufficient to establish inertness; classify AMBIGUOUS.",
+    "H_CHANGES_BEHAVIOR": "Changes execution semantics relevant to the task.",
+    "H_CONFLICT_REQUIRED": "Conflicts with any required value, task instruction, or frozen fixture.",
+    "H_DEPLOYMENT_SEMANTICS": "Changes master/deploy mode or driver placement semantics unless proven an externally imposed invariant and irrelevant to the task.",
+    "H_FEATURE_TOGGLE": "Enables/disables a feature whose state can affect execution or task semantics.",
+    "H_RESOURCE_SEMANTICS": "Changes executor/driver memory, overhead, cores, instances, scaling, or related resource semantics unless proven an externally imposed invariant and irrelevant to the task.",
+    "H_SOURCE_PRECEDENCE": "Changes configuration source, precedence, or creates multiple effective values.",
+    "H_UNKNOWN_OR_INVALID": "Unknown option/key, invalid value, or unsupported syntax."
+  },
+  "important_nonshortcuts": [
+    "No specific setting name is automatically BENIGN merely because it appeared frequently in any model's failures.",
+    "--master yarn, --deploy-mode client/cluster, and spark.dynamicAllocation.enabled=false are NOT pre-labeled benign; each occurrence must satisfy the task-aware frozen criteria.",
+    "UNSUPPORTED_VALIDATOR_KEY is not automatically benign; it may be tolerated only when the same extra independently satisfies all BENIGN criteria with frozen evidence.",
+    "AMBIGUOUS defaults to sensitivity FAIL."
+  ],
+  "policy_id": "spark_llm_benign_extra_sensitivity_v1",
+  "post_adjudication_analysis": {
+    "descriptive_outputs": [
+      "strict→sensitivity flips by model/condition",
+      "flips by A-F category",
+      "flips by benign mechanism class",
+      "strict vs sensitivity effect-size comparison"
+    ],
+    "initial_only": true,
+    "repeat_same_primary_initial_pipeline": [
+      "success counts and Wilson 95% CI",
+      "paired C0/C1 transitions",
+      "exact McNemar with Holm across three within-model headline tests",
+      "same 10,000-replicate A-F-stratified task-level bootstrap with seed 20261001",
+      "same GLMM: sensitivity_success ~ model * condition + category + (1|task_id), with same diagnostics and same pre-specified GEE fallback"
+    ]
+  },
+  "scope": {
+    "dataset": "same authoritative 540 Initial model×condition×task rows",
+    "final_after_repair_rescoring": false,
+    "new_model_calls": false,
+    "new_runtime_execution": false,
+    "new_tasks": false,
+    "primary_scoring_unchanged": true,
+    "reason": "Repair eligibility is conditional on strict Initial failure; changing Initial scoring would create counterfactual repair sets.",
+    "repair_rescoring": false
+  },
+  "status": "FROZEN_BEFORE_RAW_CANDIDATE_ADJUDICATION",
+  "version": "1.0"
+}

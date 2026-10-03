@@ -1,0 +1,31 @@
+{
+  "schema_version": "1",
+  "protocol_version": "0.1",
+  "stage": "QWEN_PILOT_INITIAL",
+  "model": {
+    "ollama_model": "qwen3.5:9b-spark-exp",
+    "expected_base_model": "qwen3.5:9b",
+    "context_window": 16384,
+    "thinking": false,
+    "options": {
+      "temperature": 0,
+      "top_p": 1.0,
+      "top_k": 40,
+      "seed": 20260928,
+      "num_ctx": 16384,
+      "num_predict": 512
+    },
+    "keep_alive": "30m"
+  },
+  "conditions": [
+    "C0_closed_book",
+    "C1_frozen_official_docs"
+  ],
+  "calls": 60,
+  "repair_in_this_stage": false,
+  "system_prompt": "You generate Apache Spark 3.5.9 configuration for a controlled reliability benchmark. Follow the task requirement exactly. Return only the requested Spark configuration artifact. Do not explain your answer. Do not provide or invent an application JAR, main class, Python file, or application arguments; the benchmark runner supplies the fixed ConfigProbe application.",
+  "artifact_guidance": {
+    "spark_submit": "Return one Spark submission configuration artifact. You may include the literal spark-submit followed only by Spark submission options. Do not include an application resource.",
+    "spark_defaults": "Return only spark-defaults.conf property line(s), one property per line. Do not include Markdown fences or explanations."
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1",
+  "profile_version": "0.2",
+  "spark_version": "3.5.9",
+  "benchmark_cluster_manager": "yarn",
+  "supported_keys": {
+    "spark.master": {
+      "type": "enum",
+      "values": [
+        "yarn"
+      ]
+    },
+    "spark.submit.deployMode": {
+      "type": "enum",
+      "values": [
+        "client",
+        "cluster"
+      ]
+    },
+    "spark.driver.memory": {
+      "type": "memory"
+    },
+    "spark.executor.memory": {
+      "type": "memory"
+    },
+    "spark.executor.memoryOverhead": {
+      "type": "memory_mib"
+    },
+    "spark.driver.cores": {
+      "type": "positive_int"
+    },
+    "spark.executor.cores": {
+      "type": "positive_int"
+    },
+    "spark.executor.instances": {
+      "type": "positive_int"
+    },
+    "spark.yarn.queue": {
+      "type": "nonempty_string"
+    },
+    "spark.yarn.submit.waitAppCompletion": {
+      "type": "boolean"
+    },
+    "spark.dynamicAllocation.enabled": {
+      "type": "boolean"
+    },
+    "spark.dynamicAllocation.shuffleTracking.enabled": {
+      "type": "boolean"
+    },
+    "spark.shuffle.service.enabled": {
+      "type": "boolean"
+    },
+    "spark.dynamicAllocation.minExecutors": {
+      "type": "nonnegative_int"
+    },
+    "spark.dynamicAllocation.initialExecutors": {
+      "type": "nonnegative_int"
+    },
+    "spark.dynamicAllocation.maxExecutors": {
+      "type": "positive_int"
+    }
+  },
+  "official_docs": {
+    "configuration": "https://spark.apache.org/docs/3.5.9/configuration.html",
+    "submitting_applications": "https://spark.apache.org/docs/3.5.9/submitting-applications.html",
+    "running_on_yarn": "https://spark.apache.org/docs/3.5.9/running-on-yarn.html",
+    "job_scheduling": "https://spark.apache.org/docs/3.5.9/job-scheduling.html"
+  }
+}

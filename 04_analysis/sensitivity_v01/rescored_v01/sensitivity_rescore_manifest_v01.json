@@ -1,0 +1,13 @@
+{
+  "adjudication_csv_sha256": "59a18078426e90b39661497b56cb016aabb7df29ae2ffb874e55540a20107530",
+  "candidate_rows": 65,
+  "created_at_utc": "2026-10-03T11:13:25.788629+00:00",
+  "master_sha256": "cb8418c2861be415ce80fa3738a5c170805d5e24fe2db7cf94b89c49cc1b5320",
+  "primary_strict_scoring_changed": false,
+  "private_map_sha256": "916d4aadf68a0c6eb43fbfff8a50275e96a04a3e11d47f640c7e1ed7804aee45",
+  "repair_or_final_rescored": false,
+  "rows": 540,
+  "sensitivity_master_sha256": "adeee99efc8116baadca992a60e4f09dba4e949a697864e20f459d9d53cbc7b9",
+  "strict_to_sensitivity_flips": 55,
+  "unblinded_candidate_ledger_sha256": "23b055cbe0e55f94379f5b6d230728711d9148cc4118fdd3bfc878130ba17c83"
+}

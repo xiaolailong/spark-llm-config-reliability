@@ -1,0 +1,45 @@
+{
+  "schema_version": "1",
+  "created_at_utc": "2026-10-01T07:42:23.428797+00:00",
+  "catalog_sha256": "b82814319214c59f3d17edb54de712e8bd48304085ca619065df01c1d7c013a8",
+  "source_hashes": {
+    "runs/qwen_formal_initial_v01/20260930T101751Z_fe995b04/qwen_formal_initial_summary.json": "db5ba99b519d9f236b0e2b19133035246997796395ebc9479a86a89659cdc170",
+    "runs/qwen_formal_repair_once_v01/20260930T132312Z_62a763de/qwen_formal_repair_once_summary.json": "ab1737bcf3ba986fa41b94c65bb8b22fd1f82698b220f3ad5d13c6e63115d844",
+    "runs/deepseek_formal_initial_v01/20260930T154824Z_58fc84cb/deepseek_formal_initial_summary.json": "7925537ba192568609050c24bfccd81ac3ec9b1995097b2ba706e4787bb28f77",
+    "runs/deepseek_formal_repair_once_v01/20261001T020000Z_20d6f564/deepseek_formal_repair_once_summary.json": "6f4a0721269b7e96db0001003eae518c51aa528e2630b5a916a0d62d652f6bac",
+    "runs/gpt6_sol_parserfix_revalidation_v011/20261001T044711Z_d1b568c4/gpt6_sol_formal_initial_parserfix_overlay_v011.json": "6c75028b95f6bb949f1c13f0e868bc2975ec0f80f17a3cdcb0fb0cc9192201c0",
+    "runs/gpt6_sol_formal_repair_once_v01/20261001T050501Z_d7ea02dc/gpt6_sol_formal_repair_once_summary.json": "ba1f82001dd28970edd1a06c7831d36dbcfafd9731406ae6bce3a4738d439807"
+  },
+  "outputs": {
+    "formal_master_540_v01.csv": "cb8418c2861be415ce80fa3738a5c170805d5e24fe2db7cf94b89c49cc1b5320",
+    "formal_master_540_v01.json": "c1263687b6fb155fb22fc6b04bddf5eba14940d95857044986f7b413f8a01b49",
+    "formal_summary_v01.json": "943dd7023893d2efd859e92b4ae163ee3b16f3b40a8eb654d24cd38fe05e9c81",
+    "formal_summary_tables_v01.md": "175b4acfe88f8d32b5e481157110b33ddaca688269345a1ee60cd39361bd9886"
+  },
+  "authoritative_checks": {
+    "('qwen', 'C0_closed_book')": {
+      "initial": 23,
+      "final": 52
+    },
+    "('qwen', 'C1_frozen_official_docs_v04')": {
+      "initial": 61,
+      "final": 82
+    },
+    "('deepseek', 'C0_closed_book')": {
+      "initial": 65,
+      "final": 90
+    },
+    "('deepseek', 'C1_frozen_official_docs_v04')": {
+      "initial": 79,
+      "final": 90
+    },
+    "('gpt6_sol', 'C0_closed_book')": {
+      "initial": 70,
+      "final": 90
+    },
+    "('gpt6_sol', 'C1_frozen_official_docs_v04')": {
+      "initial": 68,
+      "final": 89
+    }
+  }
+}

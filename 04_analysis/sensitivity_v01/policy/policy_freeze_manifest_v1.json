@@ -1,0 +1,7 @@
+{
+  "frozen_at_utc": "2026-10-02T14:04:08.937310+00:00",
+  "json_sha256": "fe587f0f6d8a74b0299849833db71687fa4e6369720d8f067b492d7208d5c49e",
+  "md_sha256": "d0c7f0f024a6dbb1217d2db73d3031b6cc82d38b4c046b01ec2a3c1e53f5190f",
+  "policy_id": "spark_llm_benign_extra_sensitivity_v1",
+  "status": "FROZEN_BEFORE_RAW_CANDIDATE_ADJUDICATION"
+}

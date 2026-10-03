@@ -1,0 +1,16 @@
+"model","condition","category","strict_to_sensitivity_flips"
+"DeepSeek","C0","A",6
+"GPT","C0","A",12
+"DeepSeek","C1","A",7
+"GPT","C1","A",10
+"GPT","C1","B",1
+"GPT","C1","C",6
+"DeepSeek","C0","E",2
+"GPT","C0","E",3
+"DeepSeek","C1","E",1
+"GPT","C1","E",2
+"Qwen","C1","E",1
+"DeepSeek","C0","F",1
+"GPT","C0","F",1
+"DeepSeek","C1","F",1
+"GPT","C1","F",1
